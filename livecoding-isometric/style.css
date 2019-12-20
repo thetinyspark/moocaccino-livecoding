@@ -1,0 +1,18 @@
+ #mapcontainer {
+     position: relative;
+     top: 0;
+     left: 0;
+ }
+
+ body{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+ }
+
+ .tile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 64px;
+}

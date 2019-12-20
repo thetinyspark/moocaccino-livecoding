@@ -1,0 +1,14 @@
+{
+  "name": "livecoding-isometric",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "http-server"
+  },
+  "author": "The Tiny Spark <contact@the-tiny-spark.com> (http://the-tiny-spark.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^0.12.0"
+  }
+}

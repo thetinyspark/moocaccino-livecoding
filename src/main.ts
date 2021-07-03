@@ -1,24 +1,17 @@
-import {Agent} from "./Agent"; 
-import { Environment } from "./Environment";
+import { Node } from "./Node";
+import { User } from "./User";
 
-const env:Environment = new Environment();
+const root:Node<User> = new Node<User>(0,10000, "age");
+root.name = "root";
 
-function nextGeneration(num:number = 0){
-    env.next();
-    env.evaluate();
-    const agents:Agent[] = env.getAgents();
-    if( agents[0].note === 11 ){
-        console.log("c'est gagné ! generation:" + num);
-    }
-    else{
-        console.log("note courante: " + agents[0].note);
-        setTimeout( 
-            () =>  {
-                nextGeneration(num+1);
-            }, 
-            100
-        )
-    }
+
+for( let i:number = 0; i < 1000000; i++ ){
+    root.add( {id:1, name:"john doe", age: Math.ceil(Math.random() * 10000)} as User);
 }
 
-nextGeneration();
+console.time("#age");
+let i:number = 10; 
+while( --i > -1){
+    const results:User[] = root.search(4999,5000); 
+}
+console.timeEnd("#age");

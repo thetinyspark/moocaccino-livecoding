@@ -1,2 +1,2 @@
-# moocaccino-bubble-sort
-Le tri à bulles, avec des vrais morceaux de code dedans
+# moocaccino-recursive
+Génération de labyrinthe et suite de Fibonacci, le tout de façon récursive !

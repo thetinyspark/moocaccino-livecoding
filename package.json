@@ -1,35 +1,44 @@
 {
-  "name": "observer-design-pattern",
+  "name": "ts-jasmine-webpack-template",
   "version": "1.0.0",
-  "description": "Un super projet qu'il est bien, achète !",
-  "main": "src/index.js",
+  "description": "A template for typescript jasmine webpack projects",
+  "main": "dist/lib/index.js",
+  "type": "dist/lib/index.ts",
   "scripts": {
-    "test": "jasmine-ts ./spec/**/*.ts",
-    "start": "npm run dev",
-    "build": "tsc",
-    "lint": "eslint . & echo 'lint complete'",
-    "dev": "ts-node-dev --transpile-only --respawn  ./src/index.ts",
-    "debug": "tsc && node --inspect ./built/src/index.js"
+    "start": "nodemon -e ts --watch lib --exec \"npm run build\"",
+    "build": "tsc && npm run pack && http-server dist",
+    "test": "tsc && jasmine",
+    "pack": "npx webpack --config webpack.config.js",
+    "jasminit": "jasmine init"
   },
-  "author": "TheTinySpark",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thetinyspark/ts-jasmine-webpack-template.git"
+  },
+  "keywords": [
+    "typescript",
+    "jasmine",
+    "webpack"
+  ],
+  "author": "The Tiny Spark <contact@the-tiny-spark.com> (http://the-tiny-spark.com)",
   "license": "MIT",
-  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/thetinyspark/ts-jasmine-webpack-template/issues"
+  },
+  "homepage": "https://github.com/thetinyspark/ts-jasmine-webpack-template#readme",
+  "dependencies": {
+    "babylonjs-viewer": "^4.2.0",
+    "babylonjs": "^4.2.0",
+    "babylonjs-materials": "^4.2.0",
+    "rxjs": "^6.6.6"
+  },
   "devDependencies": {
-    "@types/jasmine": "^3.7.4",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "eslint": "^7.11.0",
-    "eslint-config-airbnb-typescript": "^12.0.0",
-    "eslint-config-prettier": "^6.13.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.1.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "jasmine": "^3.7.0",
-    "jasmine-ts": "^0.3.3",
+    "@types/jasmine": "^3.5.0",
+    "jasmine": "^3.5.0",
     "nodemon": "^2.0.7",
-    "prettier": "^2.1.2",
-    "ts-node": "^9.0.0",
-    "ts-node-dev": "^1.0.0",
-    "typescript": "^4.2.4"
+    "typedoc": "^0.20.32",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.12"
   }
 }

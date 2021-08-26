@@ -1,18 +1,19 @@
 {
-  "name": "algo_genetic",
+  "name": "observer-design-pattern",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "Un super projet qu'il est bien, achète !",
+  "main": "src/index.js",
   "scripts": {
     "test": "jasmine-ts ./spec/**/*.ts",
     "start": "npm run dev",
     "build": "tsc",
     "lint": "eslint . & echo 'lint complete'",
-    "dev": "ts-node-dev --transpile-only --respawn  ./src/main.ts",
-    "debug": "tsc && node --inspect ./built/src/main.js"
+    "dev": "ts-node-dev --transpile-only --respawn  ./src/index.ts",
+    "debug": "tsc && node --inspect ./built/src/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "TheTinySpark",
+  "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
     "@types/jasmine": "^3.7.4",
     "@typescript-eslint/eslint-plugin": "^4.22.0",

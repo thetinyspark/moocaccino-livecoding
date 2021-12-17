@@ -1,0 +1,49 @@
+body{
+    background-color: black;
+}
+
+.container{
+    margin: auto;
+    width: 50%;
+}
+
+#maze{
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 500px;
+    height: 500px;
+}
+
+.wall{
+    background-color: rgb(37, 36, 34);
+}
+
+.visited{
+    background-color: beige;
+}
+
+.unvisited{
+    background-color: cadetblue;
+}
+
+input, button{
+    border: 1px solid yellow; 
+    color: yellow;
+    font-size: 1rem;
+    font-weight: bold;
+    background: none;
+    padding: 15px;
+}
+
+label{
+    color: yellow;
+    font-size: 1rem;
+    font-weight: bold;
+    background: none;
+    padding: 15px;
+}
+
+input{
+    width: 50px;
+}
+

@@ -4,26 +4,37 @@ body{
 
 .container{
     margin: auto;
-    width: 50%;
 }
 
 #maze{
     border-collapse: collapse;
     border: 1px solid black;
-    width: 500px;
-    height: 500px;
+    margin: auto;
+}
+
+#maze td{
+    width: 32px;
+    height: 32px;
+}
+
+.selected{
+    filter: saturate(var(--value, 5));
+    filter: contrast(var(--value, 5))
 }
 
 .wall{
-    background-color: rgb(37, 36, 34);
+    background-image: url("./sprite5.png");
+    background-size: contain;
 }
 
 .visited{
-    background-color: beige;
+    background-image: url("./sprite2.png");
+    background-size: contain;
 }
 
 .unvisited{
-    background-color: cadetblue;
+    background-image: url("./sprite3.png");
+    background-size: contain;
 }
 
 input, button{
@@ -46,4 +57,3 @@ label{
 input{
     width: 50px;
 }
-

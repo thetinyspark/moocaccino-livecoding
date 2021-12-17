@@ -4,170 +4,204 @@ const WALL = 1;
 const VISITED = 0;
 const NO_CELL = 999;
 
-function createGrid(m, n) {
+class MazeGenerator{
 
-    let grid = [];
-
-    for (let i = 0; i < m; i++) {
-
-        let row = [];
-
-        for (let j = 0; j < n; j++) {
-            if (i % 2 == 0 || j % 2 == 0) {
-                row.push(WALL);
-            }
-            else {
-                row.push(UNVISITED)
-            }
-        }
-
-        grid.push(row);
+    constructor(){
+        this.reset(1,1,1,1);
     }
 
+    reset(numRows, numCols, startRow, startCol){
+        this.grid = this.createGrid(numRows, numCols);
+        this.path = [];
+        this.currentRow = startRow; 
+        this.currentCol = startCol;
+    }
 
-    return grid;
-}
+    getGrid(){
+        return this.grid;
+    }
 
-function rmaze(grid, row, col, path) {
+    createGrid(m, n) {
 
-    const sides = [
-        [row, col - 2, row, col - 1], // case non visitée(bleue) directement à gauche de la case de départ
-        [row, col + 2, row, col + 1],// case non visitée(bleue) directement à droite de la case de départ
-        [row - 2, col, row - 1, col],// case non visitée(bleue) directement au dessus de la case de départ
-        [row + 2, col, row + 1, col]// case non visitée(bleue) directement en dessous de la case de départ
-    ];
+        let grid = [];
+    
+        for (let i = 0; i < m; i++) {
+    
+            let row = [];
+    
+            for (let j = 0; j < n; j++) {
+                if (i % 2 == 0 || j % 2 == 0) {
+                    row.push(WALL);
+                }
+                else {
+                    row.push(UNVISITED)
+                }
+            }
+    
+            grid.push(row);
+        }
+    
+    
+        return grid;
+    }
 
-    // on passe notre case courante à visited (blanche)
-    grid[row][col] = VISITED;
+    step(){
+        const grid = this.grid;
+        const path = this.path;
+        const row = this.currentRow;
+        const col = this.currentCol;
 
-    // on choisit une case parmi les 4 cases adjacentes au hasard    
-    let start = (Math.random() * sides.length) >> 0;
-
-    // on boucle sur toutes les cases en commençant par celle choisie au hasard
-    for (let i = 0; i < sides.length; i++) {
-
-        // on récupère les coordonnées dans la grille 
-        // de notre case visée
-        let row1 = sides[start][0];
-        let col1 = sides[start][1];
-
-        // Ainsi que celles du mur qui nous en sépare
-        let row2 = sides[start][2];
-        let col2 = sides[start][3];
-
-        // si la case visée existe et n'a pas été visitée au préalable
-        if (grid[row1] != undefined && grid[row1][col1] != undefined && grid[row1][col1] == UNVISITED) {
-
+        const sides = [
+            [row, col - 2, row, col - 1], // case non visitée(bleue) directement à gauche de la case de départ
+            [row, col + 2, row, col + 1],// case non visitée(bleue) directement à droite de la case de départ
+            [row - 2, col, row - 1, col],// case non visitée(bleue) directement au dessus de la case de départ
+            [row + 2, col, row + 1, col]// case non visitée(bleue) directement en dessous de la case de départ
+        ];
+    
+        // on passe notre case courante à visited (blanche)
+        grid[row][col] = VISITED;
+    
+        // on récupère les voisins vers lesquels on peut aller
+        const availablesNeighbours = sides.filter( 
+            (side)=>{
+                // on récupère les coordonnées dans la grille de notre case visée
+                let row1 = side[0];
+                let col1 = side[1];
+                return (grid[row1] != undefined && grid[row1][col1] != undefined && grid[row1][col1] == UNVISITED)
+            }
+        );
+    
+        if( availablesNeighbours.length > 0 ){
+            // on récupère un voisin au hasard
+            const index = Math.round( Math.random() * (availablesNeighbours.length-1) )
+            const side = availablesNeighbours[index];
+            let row1 = side[0];
+            let col1 = side[1];
+    
+            // Ainsi que celles du mur qui nous en sépare
+            let row2 = side[2];
+            let col2 = side[3];
+    
             // alors on fait en sorte de passer notre mur à VISITED
             // on casse le mur en fait
             grid[row2][col2] = VISITED;
-
+    
             // on ajoute nos coordonnées de départ au chemin 
             // qui nous a mené jusqu'à la nouvelle case
             path.push([row, col]);
-
-            // on rappelle notre fonction en spécifiant comme point 
-            // de départ, notre nouvelle case qui est maintenant atteignable
-            rmaze(grid, row1, col1, path);
-            
+    
+            // on spécifie notre prochain point de départ
+            this.currentRow = row1;
+            this.currentCol = col1;
             return;
         }
+        else if(path.length > 0 ){
+            // si aucune case adjacente n'est intéréssante, alors on remonte le chemin
+            // à rebours et on tente de "creuser" à partir d'une des cases précédentes
+            // on retire le dernier élément du chemin
+            let coords = path.pop();
 
-        // si la case n'existe pas, alors on boucle sur les autres cases adjacentes
-        start++;
-        if (start >= sides.length) {
-            start = 0;
+            // on spécifie notre prochain point de départ
+            this.currentRow = coords[0];
+            this.currentCol = coords[1];
+            return;
+        }
+        else{    
+            // C'est fini
+            this.currentRow = null;
+            this.currentCol = null;
+            return;
         }
     }
 
-    // si aucune case adjacente n'est intéréssante, alors on remonte le chemin
-    // à rebours et on tente de "creuser" à partir d'une des cases précédentes
-    if (path.length > 0) {
-        // on retire le dernier élément du chemin
-        let coords = path.pop();
-
-        // et on essaie de creuser à partir de cette case
-        rmaze(grid, coords[0], coords[1], path);
+    isFinished(){
+        return this.currentRow === null && this.currentCol === null;
     }
 
+    finish(){
+        while( !this.isFinished() ){
+            this.step();
+        }
+    }
+
+    finishWithDelay(ms, callback){
+        this.step();
+        if( !this.isFinished()){
+            setTimeout( 
+                ()=>{ 
+                    this.finishWithDelay(ms, callback); 
+                    callback();
+                }, 
+                ms
+            );
+        }
+    }
 }
 
-function gridToTable(grid){
-    const content = grid.map( 
-        (row)=>{
-            const cells = row.map(
-                (cell)=>{
-                    switch(cell){
-                        case WALL: return `<td class="wall"></td>`;
-                        case UNVISITED: return `<td class="unvisited"></td>`;
-                        case VISITED: return `<td class="visited"></td>`;
-                        case NO_CELL: return `<td class="nocell"></td>`;
+class MazeRenderer{
+    gridToTable(grid){
+        
+    }
+    
+    render(grid, selectedRow, selectedCol){
+        const content = grid.map( 
+            (row, rowIndex)=>{
+                const cells = row.map(
+                    (cell, cellIndex)=>{
+                        let result = "";
+                        switch(cell){
+                            case WALL: result = "wall"; break;
+                            case UNVISITED: result = "unvisited"; break;
+                            case VISITED: result = "visited"; break;
+                            case NO_CELL: result = "nocell"; break;
+                        }
+
+                        if( cellIndex === selectedCol && selectedRow === rowIndex ){
+                            result += " selected";
+                        }
+
+                        return `<td class="${result}"></td>`;
                     }
-                }
-            ); 
-
-            return `<tr>${cells.join("")}</tr>`;
-        }
-    );
-
-    return content.join("");
-}
-
-function render(grid){
-    const tableContent = gridToTable(grid);
-    document.getElementById("maze").innerHTML = tableContent;
-}
-
-function makeHole(grid, startRow, startCol, endRow, endCol){
-    for( let i = startRow; i < endRow; i++ ){
-
-        if( i >= grid.length)
-            continue;
-
-        for( let j = startCol; j < endCol; j++ ){
-
-            if( j >= grid[i].length)
-                continue;
-
-            grid[i][j] = VISITED;
-        }
+                ); 
+    
+                return `<tr>${cells.join("")}</tr>`;
+            }
+        );
+    
+        document.getElementById("maze").innerHTML = content.join("");
     }
 }
 
-function wallBreaker(grid, cap){
-    grid.forEach( 
-        (row,rowIndex)=>{
-            row.forEach(
-                (cell,cellIndex)=>{
-                    if( cell === WALL ){
-                        const rand = Math.random();
-                        if( rand >= cap )
-                            grid[rowIndex][cellIndex] = VISITED;
-                    }
-                }
-            )
-        }
-    )
-}
+const generator = new MazeGenerator();
+const renderer = new MazeRenderer();
 
-function main(){
+function newMaze(){
     const numRows = parseInt(document.getElementById("numRows").value);
     const numCols = parseInt(document.getElementById("numCols").value);
-    let grid = createGrid(numRows, numCols);
-    rmaze(grid, 1, 1, []);
-
-    for( let i = 0; i < 30; i++ ){
-        const startRow = parseInt(Math.random() * (numRows - 6)) + 1;
-        const startCol = parseInt(Math.random() * (numRows - 6)) + 1;
-        
-        makeHole(grid, startRow, startCol, startRow + 4, startCol + 4);
-    }
-    // wallBreaker(grid, 0.9);
-
-    render(grid);
+    generator.reset(numRows, numCols, 1, 1);
+    renderer.render(generator.getGrid());
 }
 
+function next(){
+    generator.step();
+    renderer.render(generator.getGrid(), generator.currentRow, generator.currentCol);
+}
 
+function finalizeMaze(){
+    generator.finish();
+    renderer.render(generator.getGrid(),  generator.currentRow, generator.currentCol);
+}
 
+function finalizeMazeWithDelay(){
+    generator.finishWithDelay(
+        50, 
+        ()=>{
+            renderer.render(generator.getGrid(),  generator.currentRow, generator.currentCol);
+        }
+    );
+}
 
-
+window.onload = function(){
+    newMaze();
+    finalizeMaze();
+}

@@ -10,9 +10,12 @@
 </head>
 <body>
     <div class="container">
-        <button onclick="main()">OK</button>
-        <label for="numRows">Rows:</label><input type="text" id="numRows" value="81" />
-        <label for="numCols">Cols:</label><input type="text" id="numCols" value="81" />
+        <button onclick="newMaze()">New +</button>
+        <button onclick="next()">Step >></button>
+        <button onclick="finalizeMazeWithDelay()">Finalize (50ms)</button>
+        <button onclick="finalizeMaze()">Finalize</button>
+        <label for="numRows">Rows:</label><input type="text" id="numRows" value="11" />
+        <label for="numCols">Cols:</label><input type="text" id="numCols" value="11" />
         <table id="maze"></table>
     </div>
 </body>

@@ -10,9 +10,12 @@
   "description": "C'est le dépôt où je pose toutes les bêtises que je fais et dis en livecoding :D",
   "version": "1.0.0",
   "main": "webpack.config.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "@thetinyspark/texture-packer": "^1.10.0"
+  },
   "scripts": {
-    "start": "tsc && npx webpack --config webpack.config.js"
+    "start": "tsc && npx webpack --config webpack.config.js",
+    "pack:texture": "texture-packer --dir ./assets/sprites/ --output ./assets/sheets --size 1024"
   },
   "repository": {
     "type": "git",

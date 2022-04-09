@@ -1,5 +1,4 @@
-import {CanvasUtils, DisplayObject, DisplayObjectContainer, IDisplayObject, Maze2D, MazeNodeType, Stage, Stats, Texture, Webgl2DRenderer} from "@thetinyspark/moocaccino-barista";
-import { createNamedExports, isForOfStatement } from "typescript";
+import {DisplayObject, DisplayObjectContainer, IDisplayObject, Maze2D, MazeNodeType, Stage, Stats, Texture, Webgl2DRenderer} from "@thetinyspark/moocaccino-barista";
 
 // render loop
 
@@ -9,7 +8,6 @@ let maze:Maze2D = null;
 let stats:Stats = null;
 let wallTexture:Texture = null;
 let pathTexture:Texture = null;
-let pool:IDisplayObject[] = [];
 
 function render(){
     stage.nextFrame();
@@ -33,15 +31,15 @@ function start(){
 
     // creates maze and maze container
     maze = new Maze2D();
-    maze.reset(61, 101, 1, 1);
+    maze.reset((1080/32)>>0, (1920/32)>>0 - 1, 1, 1);
     mazeContainer = new DisplayObjectContainer();
 
     // set renderer
     stage.setRenderer(new Webgl2DRenderer());
 
     // define stage width and height
-    stage.getCanvas().width = 1024;
-    stage.getCanvas().height = 768;
+    stage.getCanvas().width = 1920;
+    stage.getCanvas().height = 1080;
 
     // define textures
     wallTexture = Texture.createFromSource("wallTex", document.getElementById("wallTexture") as HTMLImageElement);
@@ -60,11 +58,11 @@ function start(){
     stats.start();
 
     // add stats object to the stage
-    stage.addChild(stats);
+    // stage.addChild(stats);
 
     // add maze container
     stage.addChild(mazeContainer);
-    mazeContainer.y = 100;
+    // mazeContainer.y = 100;
 
 
     // start render loop
@@ -72,7 +70,8 @@ function start(){
 }
 
 function createMaze(){
-    maze.step();
+
+    maze.finalize();
 
     let counter:number = 0;
 
@@ -90,10 +89,10 @@ function createMaze(){
                         mazeContainer.addChild(sprite);
                     }
 
-                    sprite.x = colIndex * 10;
-                    sprite.y = rowIndex * 10;
-                    sprite.width = 10;
-                    sprite.height = 10;
+                    sprite.x = colIndex * 32;
+                    sprite.y = rowIndex * 32;
+                    sprite.width = 32;
+                    sprite.height = 32;
                     sprite.texture = tex;
                 }
             )

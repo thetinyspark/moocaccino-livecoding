@@ -14,6 +14,7 @@
     "@thetinyspark/texture-packer": "^1.10.0"
   },
   "scripts": {
+    "serve": "http-server",
     "start": "tsc && npx webpack --config webpack.config.js",
     "pack:texture": "texture-packer --dir ./assets/sprites/ --output ./assets/sheets --size 1024"
   },

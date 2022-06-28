@@ -1,77 +1,147 @@
-import {AssetsManager, DisplayObject, DisplayObjectContainer, GamePad, GamePadTouch, GamePadTouchEvent, Geometry, IDisplayObject, IMAGE_TYPE, INotification, JSON_TYPE, Maze2D, MazeNodeType, Stage, Stats, Texture, Webgl2DRenderer} from "@thetinyspark/moocaccino-barista";
-import Coin from "./Coin";
-import Ghost from "./Ghost";
+import {AssetsManager, DisplayObjectContainer, Grid2D, IMAGE_TYPE, INotification, JSON_TYPE, MouseControl, MouseControlEvent, Stage, Stats, Webgl2DRenderer} from "@thetinyspark/moocaccino-barista";
+import Cell from "./Cell";
 import GraphicManager from "./GraphicManager";
-import Pacman from "./Pacman";
-
+import ShapeFactory from "./ShapeFactory";
 // render loop
 
+let map:DisplayObjectContainer = null;
 let stage:Stage = null;
-let mazeContainer:DisplayObjectContainer = null;
-let maze:Maze2D = null;
 let stats:Stats = null;
-let pacman: Pacman = null;
-let walls:IDisplayObject[] = [];
-let coins:IDisplayObject[] = [];
-let ghosts:IDisplayObject[] = [];
+let grid:Grid2D<Cell> = new Grid2D<Cell>();
+let isDown:boolean = false;
+let filling:boolean = false;
+let config:any = {};
 
 
 function render(){
     stage.nextFrame();
-    pacman.move();
-    checkCollideCoins();
-    const collide = checkCollideWalls();
-    const gameover = collideGhosts();
-    if( collide ){
-        pacman.goBack();
-        pacman.goBack();
-        pacman.goDirection("none");
-    }
 
-    if( gameover || coins.length === 0 ){
-        alert("GAME OVER");
-        return;
-    }
-
-    ghosts.forEach( 
-        (ghost:Ghost)=>{
-            if( stage.getCurrentFrame() % 60 === 0 ){
-                ghost.travel(maze, pacman);
+    if( config.ticker < 0 ){
+        window.requestAnimationFrame( 
+            ()=>{
+                render();
             }
-            ghost.move();
-        }
-    )
-
-
-    window.requestAnimationFrame( 
-        ()=>{
-            render();
-        }
-    )
+        );
+    }
+    else{
+        setTimeout( render,config.ticker);
+    }
 }
 
-function collide(object1:IDisplayObject, object2:IDisplayObject){
-    const boxA = Geometry.getHitbox(object1);
-    const boxB = Geometry.getHitbox(object2);
+function keyHandler(event:KeyboardEvent){
+    if( event.type ==="keydown"){
 
-    return !( 
-        boxA.bottomLeft.x > boxB.bottomRight.x || 
-        boxA.bottomRight.x < boxB.bottomLeft.x || 
-        boxA.bottomRight.y < boxB.topRight.y || 
-        boxA.topRight.y > boxB.bottomRight.y 
-    )
+        if( event.key === "a" ){
+            compute();
+        }
+        if( event.key === "z" ){
+            apply();
+        }
+        if( event.key === "e" ){
+            compute();
+            apply();
+        }
+        if( event.key === "p" ){
+            createCells();
+        }
+        if( event.key === "c" ){
+            cleanCells();
+        }
+        if( event.key === "ArrowDown" ){
+            map.scaleX = map.scaleX - 0.125 < 0.125 ? 0.125 : map.scaleX - 0.125;
+            map.scaleY = map.scaleX;
+        }
+        if( event.key === "ArrowUp" ){
+            map.scaleX = map.scaleX + 0.125 > 1 ? 1 : map.scaleX + 0.125;
+            map.scaleY = map.scaleX;
+        }
+        if( event.key ==="Shift"){
+            filling = true;
+        }
+    }
+    else{
+        filling = false;
+    }
 }
 
 function preload(){
     window.removeEventListener("load", preload);
     const manager:AssetsManager = new AssetsManager();
+    manager.queue("./assets/map.json", JSON_TYPE, "map");
     manager.queue("./assets/sheets/atlas_0.json", JSON_TYPE, "spritesheet_json");
     manager.queue("./assets/sheets/atlas_0.png", IMAGE_TYPE, "spritesheet_img");
     manager.loadQueue().then(
         ()=>{
             start(manager);
         }
+    );
+}
+
+function compute(){
+    grid.forEach( 
+        (cell:Cell, row:number, col:number)=>{
+            cell.compute(grid);
+        }
+    );
+}
+
+function apply(){
+    grid.forEach( 
+        (cell:Cell, row:number, col:number)=>{
+            cell.apply();
+        }
+    );
+}
+
+function createMap(map:DisplayObjectContainer){
+    const row:number = config.map.row;
+    const col:number = config.map.col;
+    const size:number = config.map.cellSize;
+    grid.reset(row, col);
+    grid.forEach(
+        (cell:Cell, row:number, col:number)=>{
+            cell = new Cell(size);
+            cell.init(row,col);
+            map.addChild(cell); 
+            grid.addAt(row, col, cell);
+        }
+    );
+}
+
+function cleanCells(){
+    grid.forEach(
+        (cell:Cell, row:number, col:number)=>{
+            cell.living = false;
+        }
+    );
+}
+
+function createCells(){
+    const coords = ShapeFactory.prompt();
+    coords.forEach( 
+        (coord)=>{
+            const cell = grid.getAt(coord.row, coord.col); 
+            if(cell !== null )
+                cell.living = true;
+        }
     )
+}
+
+function mouseHandler(event:INotification){
+    const type = event.getEventType();
+    const cell = event.getPayload().target;
+
+    if( type === MouseControlEvent.MOUSE_CONTROL_DOWN ){
+        isDown = true;
+    }
+    else if( type === MouseControlEvent.MOUSE_CONTROL_UP ){
+        isDown = false;
+        filling = false;
+    }
+
+    if( isDown){
+        cell.living = filling;
+    }
 }
 
 function start(manager:AssetsManager){
@@ -79,206 +149,52 @@ function start(manager:AssetsManager){
     // init texture manager
     GraphicManager.getInstance().reset(manager);
 
+    
     // create the scene/stage, note: Stage inherits from DisplayObjectContainer
     stage = new Stage();
-
+    
     // set renderer
     stage.setRenderer(new Webgl2DRenderer());
-
+    
     // define stage width and height
-    stage.getCanvas().width = 1024;
-    stage.getCanvas().height = 768;
-
+    stage.getCanvas().width = window.innerWidth;
+    stage.getCanvas().height = window.innerHeight;
+    
     // adds canvas to html page
     document.body.appendChild(stage.getRenderer().getCanvas());
-
+    
     // create stats object
     stats = new Stats();
     
     // specify to stats object which object to monitore
     stats.setStage(stage);
-
+    
     // start monitoring
     stats.start();
-
+    
+    // ad map
+    config = manager.get("map");
+    ShapeFactory.loadPatterns(config.patterns);
+    
+    
+    map = new DisplayObjectContainer();
+    createMap(map);
+    // add map
+    stage.addChild(map);
     // add stats object to the stage
-    // stage.addChild(stats);
-
-
-
-
-    initMaze();
-    initPacman();
-    initGhost();
-    initGamePad();
-
+    stage.addChild(stats);
     
     // start render loop
     render();
+    const controls = new MouseControl(stage);
+    controls.activate();
 
-}
-
-function checkCollideWalls(){
-    const collisions = walls.filter( 
-        (wall:IDisplayObject, index)=>{
-            return collide(wall, pacman);
-        }
-    );
-
-    return ( collisions.length > 0 );
-}
-
-function checkCollideCoins(){
-    coins.filter( 
-        (coin:Coin, index)=>{
-            return collide(coin,pacman);
-        }
-    ).forEach( 
-        (coin)=>{
-            coins.splice(coins.indexOf(coin),1);
-            coin.parent.removeChild(coin);
-        }
-    );
-}
-
-function collideGhosts(){
-    const collisions = ghosts.filter( 
-        (ghost:IDisplayObject, index)=>{
-            return collide(ghost, pacman);
-        }
-    );
-
-    return ( collisions.length > 0 );
-}
-
-function onPad(notification:INotification){
-    const touch = notification.getPayload() as GamePadTouch;
-    const value = touch.value as "left"|"right"|"top"|"bottom";
-    pacman.goDirection(value);
-}
-
-function initGamePad(){
-    const pad = new GamePad();
-    window.addEventListener(
-        "keydown",
-        (e)=>{
-            const touch = pad.getTouchByKey(e.key);
-            pad.press(touch);
-            pad.release(touch);
-        }
-    );
-    pad.setTouches(
-        [
-            new GamePadTouch("ArrowLeft","left"),
-            new GamePadTouch("ArrowRight","right"),
-            new GamePadTouch("ArrowUp","top"),
-            new GamePadTouch("ArrowDown","bottom"),
-        ]
-    ); 
-
-    pad.subscribe(GamePadTouchEvent.PRESS_KEY, onPad);
-}
-
-function initPacman(){
-    pacman = new Pacman();
-    pacman.goDirection("left");
-    mazeContainer.addChild( pacman );
-
-    const floor = getRandomFloorNode();
-    pacman.x = floor.col * 32 + 4;
-    pacman.y = floor.row * 32 + 4;
-}
-
-function initGhost(){
-    const colors = ["red","cyan","orange","pink"]
-    for( let i = 0; i < colors.length; i++ ){
-
-        const ghost = new Ghost(colors[i] as any);
-        ghost.goDirection("right");
     
-        mazeContainer.addChild( ghost );
-        const floor = getRandomFloorNode();
-        ghost.x = floor.col * 32;
-        ghost.y = floor.row * 32;
-        ghost.targetX = ghost.x;
-        ghost.targetY = ghost.y;
-    
-        ghosts.push(ghost);
-    }
-
-}
-
-function getRandomFloorNode(){
-    return maze.getData().flatMap(
-        (row, rowIndex)=>{
-            return row.map(
-                (value, colIndex)=>{
-                    if( value.state.type === MazeNodeType.FREE)
-                        return {row:rowIndex, col:colIndex}
-                }
-            )
-        }
-    ).sort( 
-        (a,b)=>{
-            return Math.random() > 0.5 ? -1 : 1;
-        }
-    )
-    .shift();
-}
-
-function initMaze(){
-    // creates maze and maze container
-    maze = new Maze2D();
-    maze.reset(21, 21, 1, 1);
-    mazeContainer = new DisplayObjectContainer();
-    maze.finalize();
-
-    // add maze container
-    stage.addChild(mazeContainer);
-
-    const wallTexture = GraphicManager.getInstance().getTextureById("wall");
-    const pathTexture = GraphicManager.getInstance().getTextureById("floor1");
-
-    maze.getData().map(
-        (row, rowIndex)=>{
-            return row.map(
-                (value, colIndex)=>{
-                    if( value === null || value.state === null )
-                        return null;
-
-                    if( value.state.type === MazeNodeType.WALL && 
-                        Math.random() > 0.8 &&
-                        rowIndex !== 0 && 
-                        rowIndex !== 20 && 
-                        colIndex !== 0 && 
-                        colIndex !== 20 
-                    ){
-                        value.state.type = MazeNodeType.FREE;
-                    }
-
-                    let sprite:IDisplayObject = new DisplayObject();
-                    let tex = value.state.type === MazeNodeType.WALL ? wallTexture : pathTexture;
-                    mazeContainer.addChild(sprite);
-                    sprite.x = colIndex * 32;
-                    sprite.y = rowIndex * 32;
-                    sprite.width = 32;
-                    sprite.height = 32;
-                    sprite.texture = tex;
-
-                    if( value.state.type !== MazeNodeType.WALL ){
-                        const coin = new Coin(); 
-                        coin.x = colIndex * 32 + 8;
-                        coin.y = rowIndex * 32 + 8;
-                        coins.push(coin);
-                        mazeContainer.addChild(coin);
-                    }
-                    else{
-                        walls.push(sprite);
-                    }
-                }
-            )
-        }
-    );
+    stage.subscribe(MouseControlEvent.MOUSE_CONTROL_MOVE, mouseHandler);
+    stage.subscribe(MouseControlEvent.MOUSE_CONTROL_UP, mouseHandler);
+    stage.subscribe(MouseControlEvent.MOUSE_CONTROL_DOWN, mouseHandler);
 }
 
 window.addEventListener("load", preload);
+window.addEventListener("keydown", keyHandler, true);
+window.addEventListener("keyup", keyHandler, true);

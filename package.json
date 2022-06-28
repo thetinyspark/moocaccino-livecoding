@@ -15,8 +15,9 @@
   },
   "scripts": {
     "serve": "http-server",
-    "start": "tsc && npx webpack --config webpack.config.js",
-    "pack:texture": "texture-packer --dir ./assets/sprites/ --output ./assets/sheets --size 1024"
+    "build": "tsc && npx webpack --config webpack.config.js",
+    "start": "npm run pack:texture && npm run build && npm run serve",
+    "pack:texture": "texture-packer --dir ./assets/sprites/ --output ./assets/sheets --size 256"
   },
   "repository": {
     "type": "git",

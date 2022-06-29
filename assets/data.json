@@ -1,0 +1,19 @@
+{
+    "candidates":[
+        {"id":1, "name":"Jean-Luc Mélenchon"    , "picture":"melenchon" },
+        {"id":2, "name":"Valérie Pecresse"      , "picture":"pecresse"  },
+        {"id":3, "name":"Nicolas Dupont Aignan" , "picture":"nda"       },
+        {"id":4, "name":"Yannick Jadot"         , "picture":"jadot"     },
+        {"id":5, "name":"Fabien Roussel"        , "picture":"roussel"   },
+        {"id":6, "name":"Eric Zemmour"          , "picture":"zemmour"   },
+        {"id":7, "name":"Marine Lepen"          , "picture":"lepen"     },
+        {"id":8, "name":"Emmanuel Macron"       , "picture":"macron"    },
+        {"id":9, "name":"Anne Hidalgo"          , "picture":"hidalgo"   }
+    ], 
+    "votes":[
+        {
+            
+        }
+    ]
+}
+   

@@ -2,22 +2,22 @@
     "candidates": [
       {
         "id": 1,
-        "name": "Jean-Luc Mélenchon",
-        "picture": "melenchon",
+        "name": "François Bayrou",
+        "picture": "bayrou",
         "score": 0,
         "alive": true
       },
       {
         "id": 2,
-        "name": "Emmanuel Macron",
-        "picture": "macron",
+        "name": "Nicolas Sarkozy",
+        "picture": "sarkozy",
         "score": 0,
         "alive": true
       },
       {
         "id": 3,
-        "name": "Marine Lepen",
-        "picture": "lepen",
+        "name": "Segolene Royal",
+        "picture": "segolene",
         "score": 0,
         "alive": true
       }
@@ -26,16 +26,20 @@
     "method": "brd", 
     "generators":[
       {
-        "num":33, 
+        "num":40, 
+        "pattern": [ { "id": 2, "note": 3 }, { "id": 1, "note": 2 }, { "id": 3, "note": 1 }]
+      },
+      {
+        "num":40, 
+        "pattern": [ { "id": 3, "note": 3 }, { "id": 1, "note": 2 }, { "id": 2, "note": 1 }]
+      },
+      {
+        "num":10, 
         "pattern": [ { "id": 1, "note": 3 }, { "id": 2, "note": 2 }, { "id": 3, "note": 1 }]
       },
       {
-        "num":33, 
-        "pattern": [ { "id": 2, "note": 3 }, { "id": 3, "note": 2 }, { "id": 1, "note": 1 }]
-      },
-      {
-        "num":33, 
-        "pattern": [ { "id": 3, "note": 3 }, { "id": 1, "note": 2 }, { "id": 2, "note": 1 }]
+        "num":10, 
+        "pattern": [ { "id": 1, "note": 3 }, { "id": 3, "note": 2 }, { "id": 2, "note": 1 }]
       }
     ]
   }

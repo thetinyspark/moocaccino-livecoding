@@ -1,11 +1,14 @@
-import {AssetsManager, DisplayObjectContainer, IMAGE_TYPE, INotification, JSON_TYPE, MouseControl, MouseControlEvent, Stage, Stats, Webgl2DRenderer} from "@thetinyspark/moocaccino-barista";
+import {AssetsManager, Geometry, IMAGE_TYPE, INotification, JSON_TYPE, MouseControl, MouseControlEvent, Stage, Webgl2DRenderer} from "@thetinyspark/moocaccino-barista";
 import GraphicManager from "./GraphicManager";
+import AbstractVotingMethod from "./model/methods/AbstractVotingMethod";
+import VotingMethodFactory from "./model/factory/VotingMethodFactory";
+import CandidateBoard from "./view/CandidateBoard";
 // render loop
 
-let map:DisplayObjectContainer = null;
+let map:CandidateBoard = null;
 let stage:Stage = null;
-let stats:Stats = null;
 let config:any = {};
+let method:AbstractVotingMethod = null;
 
 
 function render(){
@@ -17,18 +20,10 @@ function render(){
     );
 }
 
-function keyHandler(event:KeyboardEvent){
-    if( event.type ==="keydown"){
-        // if( event.key === "a" ){
-        //     compute();
-        // }
-    }
-}
-
 function preload(){
     window.removeEventListener("load", preload);
     const manager:AssetsManager = new AssetsManager();
-    manager.queue("./assets/map.json", JSON_TYPE, "map");
+    manager.queue("./assets/data.json", JSON_TYPE, "data");
     manager.queue("./assets/sheets/atlas_0.json", JSON_TYPE, "spritesheet_json");
     manager.queue("./assets/sheets/atlas_0.png", IMAGE_TYPE, "spritesheet_img");
     manager.loadQueue().then(
@@ -38,22 +33,28 @@ function preload(){
     );
 }
 
-
 function mouseHandler(event:INotification){
-    const type = event.getEventType();
-    const cell = event.getPayload().target;
-
-    // if( type === MouseControlEvent.MOUSE_CONTROL_DOWN ){
-    //     isDown = true;
-    // }
+    method.compute();
+    map.updateCandidates(method.getData().candidates);
 }
 
-function start(manager:AssetsManager){
+function generateVotes(config){
+    config.generators.forEach( 
+        (current)=>{
+            for( let i = 0; i < current.num; i++){
+                config.votes.push(
+                    {
+                        id: config.votes.length, 
+                        choices: [...current.pattern]
+                    }
+                );
+            }
+        }
+    );
+    console.log(config.votes);
+}
 
-    // init texture manager
-    GraphicManager.getInstance().reset(manager);
-
-    
+function addStage(){
     // create the scene/stage, note: Stage inherits from DisplayObjectContainer
     stage = new Stage();
     
@@ -63,40 +64,49 @@ function start(manager:AssetsManager){
     // define stage width and height
     stage.getCanvas().width = window.innerWidth;
     stage.getCanvas().height = window.innerHeight;
-    
     // adds canvas to html page
     document.body.appendChild(stage.getRenderer().getCanvas());
-    
-    // create stats object
-    stats = new Stats();
-    
-    // specify to stats object which object to monitore
-    stats.setStage(stage);
-    
-    // start monitoring
-    stats.start();
-    
-    // ad map
-    config = manager.get("map");
-    
-    
-    map = new DisplayObjectContainer();
+}
+
+function addBoard(config){
+    map = new CandidateBoard();
+    map.reset(config);
+
     // add map
     stage.addChild(map);
-    // add stats object to the stage
-    stage.addChild(stats);
-    
-    // start render loop
-    render();
+    stage.nextFrame();
+    const bounds = Geometry.getBoundingRect(map);
+    map.x = ( window.innerWidth - bounds.width ) >> 1;
+    map.y = ( window.innerHeight - bounds.height ) >> 1;
+}
+
+function addVotingMethod(){
+    const factory = new VotingMethodFactory();
+    method = factory.resolve(config.method);
+    method.setData(config);
+}
+
+function addControls(){
     const controls = new MouseControl(stage);
     controls.activate();
-
-    
-    stage.subscribe(MouseControlEvent.MOUSE_CONTROL_MOVE, mouseHandler);
-    stage.subscribe(MouseControlEvent.MOUSE_CONTROL_UP, mouseHandler);
     stage.subscribe(MouseControlEvent.MOUSE_CONTROL_DOWN, mouseHandler);
 }
 
+function start(manager:AssetsManager){
+
+    // init texture manager
+    GraphicManager.getInstance().reset(manager);
+
+    // config
+    config = manager.get("data");
+    generateVotes(config);
+    addStage();
+    addBoard(config);
+    addControls();
+    addVotingMethod();
+    
+    // start render loop
+    render();
+}
+
 window.addEventListener("load", preload);
-window.addEventListener("keydown", keyHandler, true);
-window.addEventListener("keyup", keyHandler, true);

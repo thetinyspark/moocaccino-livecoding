@@ -1,19 +1,42 @@
 {
-    "candidates":[
-        {"id":1, "name":"Jean-Luc Mélenchon"    , "picture":"melenchon" },
-        {"id":2, "name":"Valérie Pecresse"      , "picture":"pecresse"  },
-        {"id":3, "name":"Nicolas Dupont Aignan" , "picture":"nda"       },
-        {"id":4, "name":"Yannick Jadot"         , "picture":"jadot"     },
-        {"id":5, "name":"Fabien Roussel"        , "picture":"roussel"   },
-        {"id":6, "name":"Eric Zemmour"          , "picture":"zemmour"   },
-        {"id":7, "name":"Marine Lepen"          , "picture":"lepen"     },
-        {"id":8, "name":"Emmanuel Macron"       , "picture":"macron"    },
-        {"id":9, "name":"Anne Hidalgo"          , "picture":"hidalgo"   }
-    ], 
-    "votes":[
-        {
-            
-        }
+    "candidates": [
+      {
+        "id": 1,
+        "name": "Jean-Luc Mélenchon",
+        "picture": "melenchon",
+        "score": 0,
+        "alive": true
+      },
+      {
+        "id": 2,
+        "name": "Emmanuel Macron",
+        "picture": "macron",
+        "score": 0,
+        "alive": true
+      },
+      {
+        "id": 3,
+        "name": "Marine Lepen",
+        "picture": "lepen",
+        "score": 0,
+        "alive": true
+      }
+    ],
+    "votes": [],
+    "method": "brd", 
+    "generators":[
+      {
+        "num":33, 
+        "pattern": [ { "id": 1, "note": 3 }, { "id": 2, "note": 2 }, { "id": 3, "note": 1 }]
+      },
+      {
+        "num":33, 
+        "pattern": [ { "id": 2, "note": 3 }, { "id": 3, "note": 2 }, { "id": 1, "note": 1 }]
+      },
+      {
+        "num":33, 
+        "pattern": [ { "id": 3, "note": 3 }, { "id": 1, "note": 2 }, { "id": 2, "note": 1 }]
+      }
     ]
-}
-   
+  }
+  

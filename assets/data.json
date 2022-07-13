@@ -20,26 +20,37 @@
         "picture": "segolene",
         "score": 0,
         "alive": true
+      },
+      {
+        "id": 4,
+        "name": "Jonluk",
+        "picture": "melenchon",
+        "score": 0,
+        "alive": true
       }
     ],
     "votes": [],
     "method": "brd", 
     "generators":[
       {
-        "num":40, 
-        "pattern": [ { "id": 2, "note": 3 }, { "id": 1, "note": 2 }, { "id": 3, "note": 1 }]
+        "num":20, 
+        "pattern": [ { "id": 2, "note": 3 }, { "id": 1, "note": 2 }, { "id": 3, "note": 1 }, { "id": 4, "note": 0.5 }]
+      },
+      {
+        "num":20, 
+        "pattern": [ { "id": 3, "note": 3 }, { "id": 1, "note": 2 }, { "id": 2, "note": 1 }, { "id": 4, "note": 0.5 }]
+      },
+      {
+        "num":0, 
+        "pattern": [ { "id": 1, "note": 3 }, { "id": 2, "note": 2 }, { "id": 3, "note": 1 }, { "id": 4, "note": 0.5 }]
+      },
+      {
+        "num":20, 
+        "pattern": [ { "id": 1, "note": 3 }, { "id": 3, "note": 2 }, { "id": 2, "note": 1 }, { "id": 4, "note": 0.5 }]
       },
       {
         "num":40, 
-        "pattern": [ { "id": 3, "note": 3 }, { "id": 1, "note": 2 }, { "id": 2, "note": 1 }]
-      },
-      {
-        "num":10, 
-        "pattern": [ { "id": 1, "note": 3 }, { "id": 2, "note": 2 }, { "id": 3, "note": 1 }]
-      },
-      {
-        "num":10, 
-        "pattern": [ { "id": 1, "note": 3 }, { "id": 3, "note": 2 }, { "id": 2, "note": 1 }]
+        "pattern": [ { "id": 4, "note": 3 }, { "id": 3, "note": 2 }, { "id": 2, "note": 1 }, { "id": 1, "note": 0.5 }]
       }
     ]
   }

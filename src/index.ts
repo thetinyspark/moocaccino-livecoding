@@ -1,4 +1,5 @@
-import {Animation, AssetsManager, IMAGE_TYPE, INotification, JSON_TYPE, MouseControl, MouseControlEvent, Stage, Stats, Webgl2DRenderer} from "@thetinyspark/moocaccino-barista";
+import {Animation, AssetsManager, IMAGE_TYPE, JSON_TYPE, Stage, Stats} from "@thetinyspark/moocaccino-barista";
+import AnimationFrameData from "@thetinyspark/moocaccino-barista/dist/core/display/AnimationFrameData";
 import GraphicManager from "./GraphicManager";
 // render loop
 
@@ -28,40 +29,44 @@ function preload(){
     );
 }
 
-function addAnimations(animations:Animation[]){
-    animations.forEach( 
-        (current:Animation, index:number)=>{
-            const row:number = Math.floor(index / 4);
-            const col:number = index % 4;
-            stage.addChild( current );
-            current.width = 128;
-            current.height = 128;
-            current.x = col * 128 + 400;
-            current.y = row * 128 + 400;
-            current.loop = true;
-            current.play();
-        }
-    );
-}
-
-function createAnimations(config:any){
-    const animations:Array<Animation> = new Array<Animation>();
+function createAnimations(config:any, data:any){
     for( let i:number = 0; i < config.animations.length; i++ ){
-        const name:string = config.animations[i].name;
-        const framestep:number = config.animations[i].framestep;
-        const desc = config.animations[i].frames.map( 
+        const currentAnim       = config.animations[i];
+        const name:string       = currentAnim.name;
+        const framestep:number  = currentAnim.framestep;
+        const anim              = new Animation();
+        const row:number        = (i / 6)>>0;
+        const col:number        = i % 6;
+        anim.name               = name;
+        anim.loop               = true; 
+        anim.x                  = col * 128 + 128;
+        anim.y                  = row * 128 + 128;
+        anim.scaleX             = 2;
+        anim.scaleY             = 2;
+
+        currentAnim.frames.forEach( 
+            
             (current:any, index:number)=>{
-                return {
-                    texture: GraphicManager.getInstance().getTextureById(current.texture), 
-                    frame: (index * framestep)
-                }
+
+                const zone                  = data.zones.find( z=>z.id === current.texture);
+                const frameData             = new AnimationFrameData();
+                frameData.texture           = GraphicManager.getInstance().getTextureById(current.texture); 
+                frameData.index             = index * framestep;
+                frameData.offsetX           = zone.offsetX;
+                frameData.offsetY           = zone.offsetY;
+                frameData.width             = zone.width;
+                frameData.height            = zone.height;
+                frameData.originalWidth     = zone.originalWidth;
+                frameData.originalHeight    = zone.originalHeight;
+                frameData.name              = zone.id;
+
+                anim.setFrameAt(index*framestep, frameData);
             }
         );
-        const anim = Animation.createFromTexturesAndFrames(desc);
-        anim.name = name;
-        animations.push(anim);
+
+        stage.addChild(anim);
+        anim.play();
     }
-    return animations;
 }
 
 function start(manager:AssetsManager){
@@ -100,8 +105,8 @@ function start(manager:AssetsManager){
 
     // ad animations
     const config:any = manager.get("config");
-    const animations = createAnimations(config);
-    addAnimations(animations);
+    const data:any = manager.get("spritesheet_json");
+    createAnimations(config, data);
 
 }
 

@@ -25,6 +25,7 @@ export default class GraphicManager{
                 }
             }
         );
+        
 
         const mainTexture = Texture.createFromSource("mainTexture", png);
         this._textures = mainTexture.createSubTextures(zones);

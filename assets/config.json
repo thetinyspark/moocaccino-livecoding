@@ -1,7 +1,7 @@
 {
   "animations": [
     {
-      "framestep": 3,
+      "framestep": 10,
       "name": "dying_SW",
       "frames": [
         { "texture": "dying_0_001" },
@@ -34,7 +34,7 @@
       ]
     },
     {
-      "framestep": 3,
+      "framestep": 10,
       "name": "dying_S",
       "frames": [
         { "texture": "dying_45_001" },
@@ -67,7 +67,7 @@
       ]
     },
     {
-      "framestep": 3,
+      "framestep": 10,
       "name": "dying_SE",
       "frames": [
         { "texture": "dying_90_001" },
@@ -100,7 +100,7 @@
       ]
     },
     {
-      "framestep": 3,
+      "framestep": 10,
       "name": "dying_E",
       "frames": [
         { "texture": "dying_135_001" },
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "framestep": 3,
+      "framestep": 10,
       "name": "dying_NE",
       "frames": [
         { "texture": "dying_180_001" },
@@ -166,7 +166,7 @@
       ]
     },
     {
-      "framestep": 3,
+      "framestep": 10,
       "name": "dying_N",
       "frames": [
         { "texture": "dying_225_001" },
@@ -199,7 +199,7 @@
       ]
     },
     {
-      "framestep": 3,
+      "framestep": 10,
       "name": "dying_NW",
       "frames": [
         { "texture": "dying_270_001" },
@@ -232,7 +232,7 @@
       ]
     },
     {
-      "framestep": 3,
+      "framestep": 10,
       "name": "dying_W",
       "frames": [
         { "texture": "dying_315_001" },
@@ -265,7 +265,7 @@
       ]
     }, 
     {
-      "framestep": 5,
+      "framestep": 10,
       "name": "running_SW",
       "frames": [
         { "texture": "running_0_001" },
@@ -276,7 +276,7 @@
       ]
     },
     {
-      "framestep": 5,
+      "framestep": 10,
       "name": "running_S",
       "frames": [
         { "texture": "running_45_001" },
@@ -287,7 +287,7 @@
       ]
     },
     {
-      "framestep": 5,
+      "framestep": 10,
       "name": "running_SE",
       "frames": [
         { "texture": "running_90_001" },
@@ -298,7 +298,7 @@
       ]
     },
     {
-      "framestep": 5,
+      "framestep": 10,
       "name": "running_E",
       "frames": [
         { "texture": "running_135_001" },
@@ -309,7 +309,7 @@
       ]
     },
     {
-      "framestep": 5,
+      "framestep": 10,
       "name": "running_NE",
       "frames": [
         { "texture": "running_180_001" },
@@ -320,7 +320,7 @@
       ]
     },
     {
-      "framestep": 5,
+      "framestep": 10,
       "name": "running_N",
       "frames": [
         { "texture": "running_225_001" },
@@ -331,7 +331,7 @@
       ]
     },
     {
-      "framestep": 5,
+      "framestep": 10,
       "name": "running_NW",
       "frames": [
         { "texture": "running_270_001" },
@@ -342,7 +342,7 @@
       ]
     },
     {
-      "framestep": 5,
+      "framestep": 10,
       "name": "running_W",
       "frames": [
         { "texture": "running_315_001" },

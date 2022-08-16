@@ -1,4 +1,5 @@
 import { Animation, DisplayObjectContainer } from "@thetinyspark/moocaccino-barista";
+import ColorRect from "./ColorRect";
 
 export default class Character extends DisplayObjectContainer{
     private _animations:Animation[] = [];
@@ -21,7 +22,9 @@ export default class Character extends DisplayObjectContainer{
         if( last !== undefined && last !== null)
             last.stop();
             
+
         this.removeChildren(); 
+        this.addChild( new ColorRect(512, 512, "rgba(0,0,0,0.5)" ))
         this.addChild(found); 
         found.goToFrame(0); 
         found.play();
@@ -29,6 +32,6 @@ export default class Character extends DisplayObjectContainer{
     }
 
     public getCurrentAnimation():Animation{
-        return this.getChildren()[0] as Animation; 
+        return this.getChildren()[1] as Animation; 
     }
 }

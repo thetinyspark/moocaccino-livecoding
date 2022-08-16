@@ -53,8 +53,7 @@
     }, 
     {
       "id":"left_high_kick", 
-      "duration": 500, 
-      "cancelable": false,
+      "duration": 500,
       "data":{"animation":"left_high_kick", "loop": false}, 
       "actions":[
         {
@@ -103,8 +102,8 @@
     }, 
     {
       "id":"combo_punch", 
-      "duration": 500, 
-      "cancelable": false,
+      "duration": 2000,
+      "lockDuration": 500,
       "data":{
         "animation":"combo_punch"
       }, 
@@ -117,13 +116,15 @@
           "name":"K", 
           "target":"left_high_kick"
         }
-      ] 
+      ], 
+      "onCompleteAction": "done"
     },
     {
       "id":"dying", 
       "data":{
         "animation":"dying"
-      }, 
+      },
+      "duration":4333,
       "actions":[
         {
           "name":"A", 

@@ -10,7 +10,7 @@ export default class TextField extends DisplayObject{
         this.width = data.width = width;
         this.height = data.height = height;
         this.texture = new Texture(
-            "stats_texture", 
+            "textfield_texture", 
             new TextureData(data), 
             0, 
             0, 

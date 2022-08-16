@@ -1,9 +1,10 @@
-import {Animation, AssetsManager, FiniteStateMachine, IMAGE_TYPE, INotification, IState, JSON_TYPE, Stage, Stats} from "@thetinyspark/moocaccino-barista";
+import {Animation, AssetsManager, FiniteStateMachine, IMAGE_TYPE, INotification, IState, JSON_TYPE, MouseControl, Stage, Stats} from "@thetinyspark/moocaccino-barista";
 import AnimationFrameData from "@thetinyspark/moocaccino-barista/dist/core/display/AnimationFrameData";
 import buildAnimationData from "./buildAnimationData";
 import Character from "./Character";
 import FSMVisualizer from "./FSMVisualizer";
 import GraphicManager from "./GraphicManager";
+import TextField from "./TextField";
 // render loop
 
 let stage:Stage = null;
@@ -11,9 +12,12 @@ let stats:Stats = null;
 let rawl:Character = null;
 const fsm = new FiniteStateMachine(); 
 const visualizer = new FSMVisualizer();
+const timeField:TextField = new TextField(100,50);
 
 function render(){
+    fsm.setTime(Date.now());
     stage.nextFrame();
+    timeField.setText(fsm.getElapsedTime().toString()+"ms");
     window.requestAnimationFrame( 
         ()=>{
             render();
@@ -42,7 +46,13 @@ function preload(){
     );
 }
 
-function createAnimations(animations:any):Animation[]{
+function createAnimations(config:any):Animation[]{
+
+    const animations = config.animations.map( 
+        (c)=>{
+            return buildAnimationData(c.base,c.angle,c.framestep,c.end,c.loop);
+        }
+    )
 
     const collection = [];
     for( let i:number = 0; i < animations.length; i++ ){
@@ -92,37 +102,59 @@ function createAnimations(animations:any):Animation[]{
     return collection;
 }
 
-function animationDone(notification:INotification){
-    const frameIndex:number = notification.getPayload() as number;
-    if( frameIndex === rawl.getCurrentAnimation().getLastFrameIndex()){
-        rawl.getCurrentAnimation().unsubscribe("PLAY_FRAME", animationDone); 
-        update("done");
-    }
+function addFSMVisualizer(){
+    // add fsm visualizer
+    stage.addChild(visualizer);
+    visualizer.x = 600;
+    visualizer.y = 100;
+    visualizer.drawFSM(fsm);
+    visualizer.subscribe("doAction", actionHandler);
+}
+
+function addMouseControl(){
+    // add mouse controls
+    const controls = new MouseControl(stage);
+    controls.activate();
+}
+
+function addFSM(config:any){
+    // add states on fsm
+    config.fsm.forEach( 
+        (state)=>{
+            fsm.addState(state as IState);
+        }
+    );
+
+    fsm.setTime(Date.now());
+    fsm.setCurrentState( fsm.getStateById("stand_idle"));
+    fsm.subscribe(FiniteStateMachine.ON_COMPLETE_ACTION, actionHandler);
+}
+
+function addCharacter(animations:Animation[]):void{
+    rawl = new Character(); 
+    rawl.x = 50;
+    rawl.y = 100;
+    rawl.setAnimations(animations);
+    rawl.setCurrentAnimation("stand_idle");
+    stage.addChild(rawl); 
 }
 
 function update(action:string):void{
-    
     const last = fsm.getCurrentState();
-    fsm.dispatch(action, Date.now());
+    fsm.dispatch(action);
     const current = fsm.getCurrentState();
 
     if( current === last)
         return;
 
     rawl.setCurrentAnimation( fsm.getCurrentState().data.animation );
-    rawl.getCurrentAnimation().subscribe("PLAY_FRAME", animationDone);
     rawl.getCurrentAnimation().loop = current.data.loop === true;
 
     visualizer.drawFSM(fsm);
 }
 
-function keyHandler(event:KeyboardEvent):void{
-    switch( event.key.toLowerCase() ){
-        case "a": update("A"); break;
-        case "z": update("Z"); break;
-        case "e": update("E"); break;
-        case "k": update("K"); break;
-    }
+function actionHandler(notification:INotification):void{
+    update( notification.getPayload() as string );
 }
 
 function start(manager:AssetsManager){
@@ -132,9 +164,6 @@ function start(manager:AssetsManager){
 
     // create the scene/stage, note: Stage inherits from DisplayObjectContainer
     stage = new Stage();
-    
-    // set renderer
-    // stage.setRenderer(new Webgl2DRenderer());
     
     // define stage width and height
     stage.getCanvas().width = window.innerWidth;
@@ -152,46 +181,24 @@ function start(manager:AssetsManager){
     // start monitoring
     stats.start();
     
-    
     // add stats object to the stage
     stage.addChild(stats);
 
-    // add fsm visualizer
-    stage.addChild(visualizer);
-    visualizer.x = 768;
-    visualizer.y = 512;
-    
-    // start render loop
-    render();
-
     // ad animations
     const config:any = manager.get("config");
-    const animationsData = config.animations.map( 
-        (c)=>{
-            return buildAnimationData(c.base,c.angle,c.framestep,c.end,c.loop);
-        }
-    )
+    const animations = createAnimations(config);
 
-    const animations = createAnimations(animationsData);
+    addCharacter(animations);
+    addFSM(config);
+    addFSMVisualizer();
+    addMouseControl();
 
-    rawl = new Character(); 
-    rawl.x = rawl.y = 256;
-    rawl.setAnimations(animations);
-    rawl.setCurrentAnimation("stand_idle");
-    stage.addChild(rawl); 
+    // timefield
+    stage.addChild(timeField);
+    timeField.x = 550;
 
-    
-    config.fsm.forEach( 
-        (state)=>{
-            fsm.addState(state as IState);
-        }
-    );
-
-    fsm.setCurrentState( fsm.getStateById("stand_idle"), Date.now() );
-    visualizer.drawFSM(fsm);
-
-
-    window.addEventListener("keyup", keyHandler);
+    // start render loop
+    render();
 }
 
 window.addEventListener("load", preload);

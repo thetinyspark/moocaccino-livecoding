@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@thetinyspark/moocaccino-barista": "^2.11.3",
+    "@thetinyspark/moocaccino-barista": "^2.12.0",
     "http-server": "^14.1.0",
     "typescript": "^4.6.3",
     "webpack": "^5.71.0",
@@ -11,13 +11,14 @@
   "version": "1.0.0",
   "main": "webpack.config.js",
   "devDependencies": {
-    "@thetinyspark/texture-packer": "^1.11.1"
+    "@thetinyspark/texture-packer": "^1.12.0"
   },
   "scripts": {
     "serve": "http-server",
     "build": "tsc && npx webpack --config webpack.config.js",
+    "build:serve": "tsc && npx webpack --config webpack.config.js && npm run serve",
     "start": "npm run pack:texture && npm run build && npm run serve",
-    "pack:texture": "texture-packer --dir ./assets/sprites/ --output ./assets/sheets --size 2048 --optimize 1 --debug 0"
+    "pack:texture": "texture-packer --dir ./assets/sprites/rawl/ --output ./assets/sheets --size 4096 --optimize 1 --debug 0"
   },
   "repository": {
     "type": "git",

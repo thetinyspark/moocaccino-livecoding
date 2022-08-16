@@ -3,6 +3,7 @@ import { AssetsManager, Texture } from "@thetinyspark/moocaccino-barista";
 export default class GraphicManager{
 
     private _textures:Texture[] = [];
+    private _zones:any = [];
     private static _instance:GraphicManager = null; 
     public static getInstance():GraphicManager{
         if( GraphicManager._instance === null )
@@ -12,23 +13,32 @@ export default class GraphicManager{
     }
 
     reset(manager:AssetsManager){
-        const png = manager.get("spritesheet_img");
-        const json = manager.get("spritesheet_json");
-        const zones = json.zones.map( 
-            (zone)=>{
-                return {
-                    sx: zone.x,
-                    sy: zone.y, 
-                    sw: zone.width, 
-                    sh: zone.height, 
-                    id: zone.id
-                }
-            }
-        );
-        
+        for( let i = 0; i < 5; i++ ){
+            const png = manager.get("spritesheet_img_"+i);
+            const json = manager.get("spritesheet_json_"+i);
+            const zones = json.zones.map( 
+                (zone)=>{
+                    const current = {
+                        ...zone,
+                        sx: zone.x,
+                        sy: zone.y, 
+                        sw: zone.width, 
+                        sh: zone.height, 
+                    }
 
-        const mainTexture = Texture.createFromSource("mainTexture", png);
-        this._textures = mainTexture.createSubTextures(zones);
+                    this._zones.push(current)
+                    return current;
+                }
+            );
+            const mainTexture = Texture.createFromSource("mainTexture_"+i, png);
+            this._textures.push( ...mainTexture.createSubTextures(zones) );
+        }
+
+        console.log(this._textures.length, "textures");
+    }
+
+    getZoneById(id:string):any|null{
+        return this._zones.find( (z) => z.id === id ) || null;
     }
 
     getTextureById(id:string):Texture|null{

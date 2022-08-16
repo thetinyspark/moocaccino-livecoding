@@ -1,356 +1,147 @@
 {
   "animations": [
+    {"loop": true,"framestep": 5,"base": "left_high_kick","angle":45,"end": 76},
+    {"loop": true,"framestep": 5,"base": "salto_kick_2","angle":45,"end": 131},
+    {"loop": true,"framestep": 5,"base": "drop_kick","angle":45,"end": 171},
+    {"loop": true,"framestep": 5,"base": "combo_punch","angle":45,"end": 131},
+    {"loop": true,"framestep": 5,"base": "bruce_lee_stand_up","angle":45,"end": 121},
+    {"loop": true,"framestep": 5,"base": "dying","angle":45,"end": 261},
+    {"loop": true,"framestep": 5,"base": "running_sneaky","angle":45,"end": 51},
+    {"loop": true,"framestep": 5,"base": "running2","angle":45,"end": 41},
+    {"loop": true,"framestep": 5,"base": "stand_idle","angle":45,"end": 1}
+  ],
+  "fsm" :[
     {
-      "framestep": 10,
-      "name": "dying_SW",
-      "frames": [
-        { "texture": "dying_0_001" },
-        { "texture": "dying_0_011" },
-        { "texture": "dying_0_021" },
-        { "texture": "dying_0_031" },
-        { "texture": "dying_0_041" },
-        { "texture": "dying_0_051" },
-        { "texture": "dying_0_061" },
-        { "texture": "dying_0_071" },
-        { "texture": "dying_0_081" },
-        { "texture": "dying_0_091" },
-        { "texture": "dying_0_101" },
-        { "texture": "dying_0_111" },
-        { "texture": "dying_0_121" },
-        { "texture": "dying_0_131" },
-        { "texture": "dying_0_141" },
-        { "texture": "dying_0_151" },
-        { "texture": "dying_0_161" },
-        { "texture": "dying_0_171" },
-        { "texture": "dying_0_181" },
-        { "texture": "dying_0_191" },
-        { "texture": "dying_0_201" },
-        { "texture": "dying_0_211" },
-        { "texture": "dying_0_221" },
-        { "texture": "dying_0_231" },
-        { "texture": "dying_0_241" },
-        { "texture": "dying_0_251" },
-        { "texture": "dying_0_261" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "dying_S",
-      "frames": [
-        { "texture": "dying_45_001" },
-        { "texture": "dying_45_011" },
-        { "texture": "dying_45_021" },
-        { "texture": "dying_45_031" },
-        { "texture": "dying_45_041" },
-        { "texture": "dying_45_051" },
-        { "texture": "dying_45_061" },
-        { "texture": "dying_45_071" },
-        { "texture": "dying_45_081" },
-        { "texture": "dying_45_091" },
-        { "texture": "dying_45_101" },
-        { "texture": "dying_45_111" },
-        { "texture": "dying_45_121" },
-        { "texture": "dying_45_131" },
-        { "texture": "dying_45_141" },
-        { "texture": "dying_45_151" },
-        { "texture": "dying_45_161" },
-        { "texture": "dying_45_171" },
-        { "texture": "dying_45_181" },
-        { "texture": "dying_45_191" },
-        { "texture": "dying_45_201" },
-        { "texture": "dying_45_211" },
-        { "texture": "dying_45_221" },
-        { "texture": "dying_45_231" },
-        { "texture": "dying_45_241" },
-        { "texture": "dying_45_251" },
-        { "texture": "dying_45_261" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "dying_SE",
-      "frames": [
-        { "texture": "dying_90_001" },
-        { "texture": "dying_90_011" },
-        { "texture": "dying_90_021" },
-        { "texture": "dying_90_031" },
-        { "texture": "dying_90_041" },
-        { "texture": "dying_90_051" },
-        { "texture": "dying_90_061" },
-        { "texture": "dying_90_071" },
-        { "texture": "dying_90_081" },
-        { "texture": "dying_90_091" },
-        { "texture": "dying_90_101" },
-        { "texture": "dying_90_111" },
-        { "texture": "dying_90_121" },
-        { "texture": "dying_90_131" },
-        { "texture": "dying_90_141" },
-        { "texture": "dying_90_151" },
-        { "texture": "dying_90_161" },
-        { "texture": "dying_90_171" },
-        { "texture": "dying_90_181" },
-        { "texture": "dying_90_191" },
-        { "texture": "dying_90_201" },
-        { "texture": "dying_90_211" },
-        { "texture": "dying_90_221" },
-        { "texture": "dying_90_231" },
-        { "texture": "dying_90_241" },
-        { "texture": "dying_90_251" },
-        { "texture": "dying_90_261" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "dying_E",
-      "frames": [
-        { "texture": "dying_135_001" },
-        { "texture": "dying_135_011" },
-        { "texture": "dying_135_021" },
-        { "texture": "dying_135_031" },
-        { "texture": "dying_135_041" },
-        { "texture": "dying_135_051" },
-        { "texture": "dying_135_061" },
-        { "texture": "dying_135_071" },
-        { "texture": "dying_135_081" },
-        { "texture": "dying_135_091" },
-        { "texture": "dying_135_101" },
-        { "texture": "dying_135_111" },
-        { "texture": "dying_135_121" },
-        { "texture": "dying_135_131" },
-        { "texture": "dying_135_141" },
-        { "texture": "dying_135_151" },
-        { "texture": "dying_135_161" },
-        { "texture": "dying_135_171" },
-        { "texture": "dying_135_181" },
-        { "texture": "dying_135_191" },
-        { "texture": "dying_135_201" },
-        { "texture": "dying_135_211" },
-        { "texture": "dying_135_221" },
-        { "texture": "dying_135_231" },
-        { "texture": "dying_135_241" },
-        { "texture": "dying_135_251" },
-        { "texture": "dying_135_261" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "dying_NE",
-      "frames": [
-        { "texture": "dying_180_001" },
-        { "texture": "dying_180_011" },
-        { "texture": "dying_180_021" },
-        { "texture": "dying_180_031" },
-        { "texture": "dying_180_041" },
-        { "texture": "dying_180_051" },
-        { "texture": "dying_180_061" },
-        { "texture": "dying_180_071" },
-        { "texture": "dying_180_081" },
-        { "texture": "dying_180_091" },
-        { "texture": "dying_180_101" },
-        { "texture": "dying_180_111" },
-        { "texture": "dying_180_121" },
-        { "texture": "dying_180_131" },
-        { "texture": "dying_180_141" },
-        { "texture": "dying_180_151" },
-        { "texture": "dying_180_161" },
-        { "texture": "dying_180_171" },
-        { "texture": "dying_180_181" },
-        { "texture": "dying_180_191" },
-        { "texture": "dying_180_201" },
-        { "texture": "dying_180_211" },
-        { "texture": "dying_180_221" },
-        { "texture": "dying_180_231" },
-        { "texture": "dying_180_241" },
-        { "texture": "dying_180_251" },
-        { "texture": "dying_180_261" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "dying_N",
-      "frames": [
-        { "texture": "dying_225_001" },
-        { "texture": "dying_225_011" },
-        { "texture": "dying_225_021" },
-        { "texture": "dying_225_031" },
-        { "texture": "dying_225_041" },
-        { "texture": "dying_225_051" },
-        { "texture": "dying_225_061" },
-        { "texture": "dying_225_071" },
-        { "texture": "dying_225_081" },
-        { "texture": "dying_225_091" },
-        { "texture": "dying_225_101" },
-        { "texture": "dying_225_111" },
-        { "texture": "dying_225_121" },
-        { "texture": "dying_225_131" },
-        { "texture": "dying_225_141" },
-        { "texture": "dying_225_151" },
-        { "texture": "dying_225_161" },
-        { "texture": "dying_225_171" },
-        { "texture": "dying_225_181" },
-        { "texture": "dying_225_191" },
-        { "texture": "dying_225_201" },
-        { "texture": "dying_225_211" },
-        { "texture": "dying_225_221" },
-        { "texture": "dying_225_231" },
-        { "texture": "dying_225_241" },
-        { "texture": "dying_225_251" },
-        { "texture": "dying_225_261" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "dying_NW",
-      "frames": [
-        { "texture": "dying_270_001" },
-        { "texture": "dying_270_011" },
-        { "texture": "dying_270_021" },
-        { "texture": "dying_270_031" },
-        { "texture": "dying_270_041" },
-        { "texture": "dying_270_051" },
-        { "texture": "dying_270_061" },
-        { "texture": "dying_270_071" },
-        { "texture": "dying_270_081" },
-        { "texture": "dying_270_091" },
-        { "texture": "dying_270_101" },
-        { "texture": "dying_270_111" },
-        { "texture": "dying_270_121" },
-        { "texture": "dying_270_131" },
-        { "texture": "dying_270_141" },
-        { "texture": "dying_270_151" },
-        { "texture": "dying_270_161" },
-        { "texture": "dying_270_171" },
-        { "texture": "dying_270_181" },
-        { "texture": "dying_270_191" },
-        { "texture": "dying_270_201" },
-        { "texture": "dying_270_211" },
-        { "texture": "dying_270_221" },
-        { "texture": "dying_270_231" },
-        { "texture": "dying_270_241" },
-        { "texture": "dying_270_251" },
-        { "texture": "dying_270_261" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "dying_W",
-      "frames": [
-        { "texture": "dying_315_001" },
-        { "texture": "dying_315_011" },
-        { "texture": "dying_315_021" },
-        { "texture": "dying_315_031" },
-        { "texture": "dying_315_041" },
-        { "texture": "dying_315_051" },
-        { "texture": "dying_315_061" },
-        { "texture": "dying_315_071" },
-        { "texture": "dying_315_081" },
-        { "texture": "dying_315_091" },
-        { "texture": "dying_315_101" },
-        { "texture": "dying_315_111" },
-        { "texture": "dying_315_121" },
-        { "texture": "dying_315_131" },
-        { "texture": "dying_315_141" },
-        { "texture": "dying_315_151" },
-        { "texture": "dying_315_161" },
-        { "texture": "dying_315_171" },
-        { "texture": "dying_315_181" },
-        { "texture": "dying_315_191" },
-        { "texture": "dying_315_201" },
-        { "texture": "dying_315_211" },
-        { "texture": "dying_315_221" },
-        { "texture": "dying_315_231" },
-        { "texture": "dying_315_241" },
-        { "texture": "dying_315_251" },
-        { "texture": "dying_315_261" }
-      ]
+      "id":"stand_idle", 
+      "data":{"animation":"stand_idle"},
+      "actions":[
+        {
+          "name":"A", 
+          "target":"combo_punch"
+        },
+        {
+          "name":"Z", 
+          "target":"dying"
+        },
+        {
+          "name":"E", 
+          "target":"running_sneaky"
+        }, 
+        {
+          "name":"K", 
+          "target":"left_high_kick"
+        }
+      ] 
     }, 
     {
-      "framestep": 10,
-      "name": "running_SW",
-      "frames": [
-        { "texture": "running_0_001" },
-        { "texture": "running_0_011" },
-        { "texture": "running_0_021" },
-        { "texture": "running_0_031" },
-        { "texture": "running_0_041" }
-      ]
+      "id":"running_sneaky", 
+      "data":{"animation":"running_sneaky", "loop": true}, 
+      "actions":[
+        {
+          "name":"A", 
+          "target":"stand_idle"
+        },
+        {
+          "name":"E", 
+          "target":"running2"
+        }, 
+        {
+          "name":"K", 
+          "target":"drop_kick"
+        }
+      ] 
+    }, 
+    {
+      "id":"left_high_kick", 
+      "duration": 500, 
+      "cancelable": false,
+      "data":{"animation":"left_high_kick", "loop": false}, 
+      "actions":[
+        {
+          "name":"A", 
+          "target":"combo_punch"
+        },
+        {
+          "name":"done", 
+          "target":"stand_idle"
+        }
+      ] 
+    }, 
+    {
+      "id":"drop_kick", 
+      "data":{"animation":"drop_kick", "loop": false}, 
+      "actions":[
+        {
+          "name":"done", 
+          "target":"stand_idle"
+        }
+      ] 
+    }, 
+    {
+      "id":"running2", 
+      "data":{"animation":"running2", "loop": true}, 
+      "actions":[
+        {
+          "name":"A", 
+          "target":"running_sneaky"
+        },
+        {
+          "name":"K", 
+          "target":"salto_kick_2"
+        }
+      ] 
+    }, 
+    {
+      "id":"salto_kick_2", 
+      "data":{"animation":"salto_kick_2", "loop": false}, 
+      "actions":[
+        {
+          "name":"done", 
+          "target":"stand_idle"
+        }
+      ] 
+    }, 
+    {
+      "id":"combo_punch", 
+      "duration": 500, 
+      "cancelable": false,
+      "data":{
+        "animation":"combo_punch"
+      }, 
+      "actions":[
+        {
+          "name":"done", 
+          "target":"stand_idle"
+        },
+        {
+          "name":"K", 
+          "target":"left_high_kick"
+        }
+      ] 
     },
     {
-      "framestep": 10,
-      "name": "running_S",
-      "frames": [
-        { "texture": "running_45_001" },
-        { "texture": "running_45_011" },
-        { "texture": "running_45_021" },
-        { "texture": "running_45_031" },
-        { "texture": "running_45_041" }
-      ]
+      "id":"dying", 
+      "data":{
+        "animation":"dying"
+      }, 
+      "actions":[
+        {
+          "name":"A", 
+          "target":"bruce_lee_stand_up"
+        }
+      ] 
     },
     {
-      "framestep": 10,
-      "name": "running_SE",
-      "frames": [
-        { "texture": "running_90_001" },
-        { "texture": "running_90_011" },
-        { "texture": "running_90_021" },
-        { "texture": "running_90_031" },
-        { "texture": "running_90_041" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "running_E",
-      "frames": [
-        { "texture": "running_135_001" },
-        { "texture": "running_135_011" },
-        { "texture": "running_135_021" },
-        { "texture": "running_135_031" },
-        { "texture": "running_135_041" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "running_NE",
-      "frames": [
-        { "texture": "running_180_001" },
-        { "texture": "running_180_011" },
-        { "texture": "running_180_021" },
-        { "texture": "running_180_031" },
-        { "texture": "running_180_041" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "running_N",
-      "frames": [
-        { "texture": "running_225_001" },
-        { "texture": "running_225_011" },
-        { "texture": "running_225_021" },
-        { "texture": "running_225_031" },
-        { "texture": "running_225_041" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "running_NW",
-      "frames": [
-        { "texture": "running_270_001" },
-        { "texture": "running_270_011" },
-        { "texture": "running_270_021" },
-        { "texture": "running_270_031" },
-        { "texture": "running_270_041" }
-      ]
-    },
-    {
-      "framestep": 10,
-      "name": "running_W",
-      "frames": [
-        { "texture": "running_315_001" },
-        { "texture": "running_315_011" },
-        { "texture": "running_315_021" },
-        { "texture": "running_315_031" },
-        { "texture": "running_315_041" }
-      ]
+      "id":"bruce_lee_stand_up", 
+      "data":{
+        "animation":"bruce_lee_stand_up"
+      }, 
+      "actions":[
+        {
+          "name":"done", 
+          "target":"stand_idle"
+        }
+      ] 
     }
   ]
 }

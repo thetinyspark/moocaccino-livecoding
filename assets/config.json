@@ -103,7 +103,7 @@
     {
       "id":"combo_punch", 
       "duration": 2000,
-      "lockDuration": 500,
+      "lockDuration": 1500,
       "data":{
         "animation":"combo_punch"
       }, 

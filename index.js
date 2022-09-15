@@ -12,34 +12,17 @@ function createBolts(numBolts, width, height){
         const bolt = new Lightning();
         bolt.start.x = startX;
         bolt.start.y = startY;
+        bolt.childrenGap = 0.9;
+        bolt.thickness = 4; 
+        bolt.numPoints = Math.round( Math.random() * 10) + 40;
         bolt.build();
         bolts.push(bolt);
     }
 
-    const bolt = new Lightning();
-    bolt.start.x = width >> 1;
-    bolt.start.y = 0;
-    bolt.thickness = 100; 
-    bolt.minAngle = 80;
-    bolt.maxAngle = 100;
-    bolt.build();
-    bolts.push(bolt);
-
     return bolts;
 }
 
-function drawAll(){
-    const canvas    = document.querySelector("#game");
-    const context   = canvas.getContext("2d");
-    bolts.forEach( 
-        (b)=>{
-            b.draw(context, 100);
-        }
-    ); 
-}
-
 function drawClouds(context){
-    return;
     const img = document.getElementById("cloud"); 
     context.save();
     for( let i = 0; i < 20  ; i++ ){
@@ -64,7 +47,7 @@ function tick(){
     }
 
     if( currentBolt !== null ){
-        currentBolt.draw(context, frame * 15); 
+        currentBolt.draw(context, frame * 5); 
         currentBolt.worldAlpha = (60 - frame) / 60; 
     }
 
@@ -98,8 +81,7 @@ window.addEventListener(
         const height    = window.innerHeight;
         canvas.width    = width; 
         canvas.height   = height;
-        bolts           = createBolts( 5, width, height);
-        // tick();
-        drawAll();
+        bolts           = createBolts( 10, width, height);
+        tick();
     }
 )

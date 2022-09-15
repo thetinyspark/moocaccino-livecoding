@@ -16,6 +16,7 @@ class Lightning{
         this.shadowThickness    = 20; 
         this.thickness          = 4; 
         this.points             = [];
+
     }
 
     _drawPoints(context, max = 0){
@@ -60,10 +61,13 @@ class Lightning{
         }
     }
 
+
     draw(context, max){
         this._drawPoints(context, max); 
         this._drawChildren(context, max);
     }
+
+
 
     build(){
         let x               = this.start.x; 
@@ -129,6 +133,7 @@ class Lightning{
                 bolt.thickness          = Math.round(this.thickness / 2);
                 bolt.alpha              = this.alpha / 2;
                 bolt.childrenGap        = this.childrenGap + 0.05;
+                bolt.impactRadius       = this.impactRadius >> 1;
                 bolt.build();
             }
         }
